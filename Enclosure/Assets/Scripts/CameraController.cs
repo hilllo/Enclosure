@@ -5,9 +5,10 @@ public class CameraController : Singleton<CameraController>
 {
     Transform cameraTransform;
 	// Use this for initialization
-    void Awake()
+    protected override void Awake()
     {
         cameraTransform = GetComponent<Transform>();
+        base.Awake();
     }
 
     public void InitCamera()
