@@ -15,11 +15,6 @@ public class Player : MonoBehaviour {
     int land = 0;
     bool turn = false;
 
-
-    int xDir = 0;
-    int yDir = 0;
-    bool canMove;
-
     public void SetPlayer(int playerID, int x, int y)
     {
         id = playerID;
@@ -31,7 +26,7 @@ public class Player : MonoBehaviour {
     {
         Debug.Log(this.gameObject.name + "'s turn.");
 ;        turn = true;
-        //StartCoroutine(PlayerOperator());
+        StartCoroutine(PlayerOperator());
     }
 
     IEnumerator SmoothMovement(Vector3 end)
@@ -79,39 +74,28 @@ public class Player : MonoBehaviour {
 
         while (turn)
         {
-            //if (id == 1)
-            //{
-            //    Debug.Log("Detecting Key..");
-            //    if (Input.GetKeyDown("d"))
-            //    {
-            //        //Debug.Log("Get key D down");
-            //        xDir = 1;
-            //    }
-            //    else if (Input.GetKeyDown("a"))
-            //    {
-            //        //Debug.Log("Get key A down");
-            //        xDir = -1;
-            //    }
-            //    else if (Input.GetKeyDown("w"))
-            //    {
-            //        //Debug.Log("Get key W down");
-            //        yDir = 1;
-            //    }
-            //}
+            //operator sets
+            if (id == 1)
+            {
+                if (Input.GetKeyDown("w")) yDir = 1;
+                else if (Input.GetKeyDown("d")) xDir = 1;
+                else if (Input.GetKeyDown("a")) xDir = -1;
 
-            //else if (id == 2)
-            //{
-            //    if (Input.GetKeyDown("right")) xDir = 1;
-            //    if (Input.GetKeyDown("left")) xDir = -1;
-            //    if (Input.GetKeyDown("down")) yDir = -1;
-            //}
+            }
 
-            if (Input.GetKeyDown("right")) xDir = 1;
-            else if (Input.GetKeyDown("up")) yDir = 1;
-            if (Input.GetKeyDown("left")) xDir = -1;
-            else if (Input.GetKeyDown("down")) yDir = -1;
+            else if (id == 2)
+            {
+                if (Input.GetKeyDown("down")) yDir = -1;
+                else if (Input.GetKeyDown("left")) xDir = -1;
+                else if (Input.GetKeyDown("right")) xDir = 1;
+            }
 
-            if ((id == 1 && yDir == -1)|| (id == 2 && yDir == 1)) yDir = 0;
+            //if (Input.GetKeyDown("right")) xDir = 1;
+            //else if (Input.GetKeyDown("up")) yDir = 1;
+            //if (Input.GetKeyDown("left")) xDir = -1;
+            //else if (Input.GetKeyDown("down")) yDir = -1;
+
+            //if ((id == 1 && yDir == -1)|| (id == 2 && yDir == 1)) yDir = 0;
 
             Debug.Log(id + " Get input (" + xDir + "," + yDir + ")");
 
@@ -133,7 +117,7 @@ public class Player : MonoBehaviour {
                 }
             }
             Debug.Log("No key input.");
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
 
     }
@@ -148,52 +132,6 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (turn)
-        {
-            if (id == 1)
-            {
-                if (Input.GetKeyDown("w"))      yDir = 1;
-                else if (Input.GetKeyDown("d")) xDir = 1;
-                else if (Input.GetKeyDown("a")) xDir = -1;
-                
-            }
-
-            else if (id == 2)
-            {
-                if (Input.GetKeyDown("down"))       yDir = -1;
-                else if (Input.GetKeyDown("left"))  xDir = -1;
-                else if (Input.GetKeyDown("right")) xDir = 1;                            
-            }
-
-            //if (Input.GetKeyDown("right")) xDir = 1;
-            //else if (Input.GetKeyDown("up")) yDir = 1;
-            //if (Input.GetKeyDown("left")) xDir = -1;
-            //else if (Input.GetKeyDown("down")) yDir = -1;
-
-            //if ((id == 1 && yDir == -1) || (id == 2 && yDir == 1)) yDir = 0;
-
-            //Debug.Log(id + " Get input (" + xDir + "," + yDir + ")");
-
-            if (xDir != 0 || yDir != 0)
-            {
-                Debug.Log("Goto (" + xDir + "," + yDir + ")");
-                canMove = gameObject.GetComponent<Player>().Move(xDir, yDir);
-                if (canMove)
-                {
-                    turn = false;
-                    //Debug.Log("End Coroutine");
-                }
-                else
-                {
-                    //Debug.Log("Cannot move to this grid.");
-                }
-                xDir = 0;
-                yDir = 0;
-            }
-            //Debug.Log("No key input.");
-        }
-
 
     }
 }
