@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
-    public float moveTime = 0.1f;
-    public LayerMask blockingLayer;
-
-    BoxCollider2D boxCollider;
-    Rigidbody2D rb2D;
-    float inverseMoveTime;
-
+public class Player : MovingObject
+{
     int id;
     int currentX;
     int currentY;
@@ -24,45 +18,13 @@ public class Player : MonoBehaviour {
 
     public void isTurn()
     {
-        Debug.Log(this.gameObject.name + "'s turn.");
-;        turn = true;
-        StartCoroutine(PlayerOperator());
-    }
-
-    IEnumerator SmoothMovement(Vector3 end)
-    {
-        float sqrRemainingDistance = (transform.position - end).sqrMagnitude; //compare distance in rest
-        while (sqrRemainingDistance > float.Epsilon) // float.Epsilon =/= 0
+        if (!turn)
         {
-            Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
-            rb2D.MovePosition(newPosition);
-            sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-            yield return null;
+            Debug.Log(this.gameObject.name + "'s turn.");
+            turn = true;
+            StartCoroutine(PlayerOperator());
         }
-    }
-
-    public bool Move(int xDir, int yDir)
-    {
-        Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
-        RaycastHit2D hit;
-
-        Debug.Log("Moving(): " + gameObject.name + " boxCollider = " + boxCollider.isActiveAndEnabled);
-
-        boxCollider.enabled = false; // avoiding colliding himself
-        hit = Physics2D.Linecast(start, end, blockingLayer);
-        boxCollider.enabled = true;
-
-        if (hit.transform == null)
-        {
-            StartCoroutine(SmoothMovement(end));
-            return true;
-        }
-        else
-        {
-            //sfx_Error
-            return false;
-        }
+        
     }
 
     IEnumerator PlayerOperator() //operator of player
@@ -124,14 +86,14 @@ public class Player : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start() {
-        boxCollider = GetComponent<BoxCollider2D>();
-        rb2D = GetComponent<Rigidbody2D>();
-        inverseMoveTime = 1f / moveTime;
+
+    protected override void Start()
+    {
+        base.Start();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
     }
 }

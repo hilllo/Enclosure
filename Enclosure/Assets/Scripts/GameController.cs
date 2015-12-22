@@ -39,24 +39,6 @@ public class GameController : Singleton<GameController>
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Alpha1)) playerGO[0].GetComponent<Player>().isTurn();
         if (Input.GetKeyDown(KeyCode.Alpha2)) playerGO[1].GetComponent<Player>().isTurn();
-
-
-
-        if (Input.GetKeyDown("right"))
-        {
-            Debug.Log("Get key RIGHT down");
-        }
-        else if (Input.GetKeyDown("left"))
-        {
-            Debug.Log("Get key LEFT down");
-        }
-        else if (Input.GetKeyDown("up"))
-        {
-            Debug.Log("Get key UP down");
-        }
-        else if (Input.GetKeyDown("down"))
-        {
-            Debug.Log("Get key DOWN down");
-        }
+        Debug.Log(Time.deltaTime);
     }
 }
